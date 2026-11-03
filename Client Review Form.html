@@ -1,0 +1,129 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Client Review Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff5f8;--card:#fff;--ink:#4a3b47;--muted:#8a7684;--pink:#ff9ec1;--lav:#c9b6ff;--line:#f3d9e4;--chip:#fff0f6;--chiptxt:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#241a24;--card:#33263a;--ink:#f6e9f1;--muted:#c1a9ba;--line:#503c56;--chip:#3f2e46;--chiptxt:#2a1d2c}}
+:root[data-theme="dark"]{--bg:#241a24;--card:#33263a;--ink:#f6e9f1;--muted:#c1a9ba;--line:#503c56;--chip:#3f2e46;--chiptxt:#2a1d2c}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Quicksand',ui-rounded,'Segoe UI',system-ui,sans-serif;line-height:1.5}
+.wrap{max-width:680px;margin:0 auto;padding:20px 16px 60px}
+header{text-align:center;padding:24px 12px 8px}
+header .big{font-size:44px}
+h1{margin:6px 0;font-size:26px}
+header p{color:var(--muted);margin:4px 0}
+.bar{height:8px;background:var(--line);border-radius:99px;margin:16px 0;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--lav));border-radius:99px;transition:width .3s}
+.card{background:var(--card);border-radius:24px;padding:20px;margin:16px 0;border:2px dashed var(--line);box-shadow:0 6px 18px rgba(255,158,193,.15)}
+.card h2{margin:0 0 12px;font-size:19px}
+label.q{display:block;font-weight:600;margin:14px 0 6px;font-size:15px}
+input[type=text],textarea{width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:16px;background:var(--bg);color:var(--ink);font:inherit;font-size:15px}
+input:focus,textarea:focus{outline:none;border-color:var(--pink)}
+textarea{min-height:84px;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{cursor:pointer;position:relative}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips span{display:inline-block;padding:8px 14px;border-radius:99px;background:var(--chip);border:2px solid var(--line);font-size:14px;font-weight:600}
+.chips input:checked+span{background:var(--pink);border-color:var(--pink);color:var(--chiptxt)}
+.chips input:focus-visible+span{outline:2px solid var(--lav);outline-offset:2px}
+.sub{font-size:13px;color:var(--muted);font-weight:500}
+.skill{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:10px 0;flex-wrap:wrap}
+.skill b{font-weight:600;font-size:14px}
+button{font:inherit;font-weight:700;border:0;border-radius:99px;padding:14px 26px;cursor:pointer;background:linear-gradient(90deg,var(--pink),var(--lav));color:#fff;font-size:16px;box-shadow:0 6px 14px rgba(201,182,255,.4)}
+.actions{text-align:center;margin-top:20px}
+#out{display:none;margin-top:16px}
+#msg{font-weight:700;color:var(--pink);margin:10px 0}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<div class="big">🌸📚✨</div>
+<h1>Client Review</h1>
+<p>Thank you for trusting us with your writing! Tell us how we did, so we can keep improving for you and every client after you.</p>
+<p class="sub">Takes about 3-4 minutes. Honest answers only, we can take it 💕</p>
+</header>
+<div class="bar"><i id="prog"></i></div>
+<form id="f" onsubmit="return false"></form>
+<div class="actions">
+<button id="go" type="button">Copy my answers 💌</button>
+<div id="msg"></div>
+<div id="out"><p class="sub">If copying didn't work, select this text and paste it in a message:</p><textarea id="ta" style="min-height:200px" readonly></textarea></div>
+<p class="sub">After copying, paste your review into a DM or email to us. Thank you! 💗</p>
+</div>
+<footer>Made with 💗 to support your journey</footer>
+</div>
+<script>
+var R=['1 😕','2 🙁','3 🙂','4 😊','5 🤩'];
+var S=[
+{h:'🎀 About you',q:[
+{k:'Your name',t:'text'},
+{k:'When did we finish your work?',t:'text',p:'Month and year are fine'},
+{k:'What did we help you with?',t:'check',o:['Topic selection','Synopsis / proposal','Introduction','Literature review','Methodology','Results / data analysis','Discussion and conclusion','Full thesis writing','Manuscript / journal paper','Writing on a specific topic','Editing and proofreading','Formatting and referencing','Plagiarism / AI-check support','Publication support','Viva / presentation prep','Research coaching session','Something else']}]},
+{h:'⭐ How satisfied are you?',q:[
+{k:'Overall, how satisfied are you with our service? (1 = poor, 5 = excellent)',t:'radio',o:R},
+{k:'Rate each of these (1 = poor, 5 = excellent)',t:'grid',o:['✍️ Quality of the writing','🧠 Understanding of my topic and needs','🔎 Research depth and accuracy','📚 Referencing and formatting','💬 Communication and replies','⏱️ Delivery on time','📋 Following my university guidelines','💎 Value for the price'],r:R}]},
+{h:'💡 What worked',q:[
+{k:'What did you like most about working with us?',t:'area'},
+{k:'Did the final work match what you asked for?',t:'radio',o:['Fully','Mostly','Partly','Not really']},
+{k:'How did revisions go?',t:'radio',o:['No revisions needed','Handled quickly and well','Took too long','Not applicable']},
+{k:'How confident do you feel about your thesis or paper now?',t:'radio',o:['Much more confident','A bit more confident','About the same','Less confident']}]},
+{h:'🌱 What could be better',q:[
+{k:'What could we improve?',t:'area'},
+{k:'Was anything missing or not as expected?',t:'area'},
+{k:'How was the turnaround time?',t:'radio',o:['Faster than expected','As promised','Slightly late','Too late']}]},
+{h:'🚀 What happens next',q:[
+{k:'Would you like more support?',t:'check',o:['Remaining chapters','Editing / proofreading','Publication help','Viva prep','Another coaching session','Not right now']},
+{k:'How likely are you to recommend us to a friend? (1 = unlikely, 5 = very likely)',t:'radio',o:R},
+{k:'What is your next step with your work?',t:'area'}]},
+{h:'💌 Kind words',q:[
+{k:'Would you be happy for us to share your feedback as a testimonial?',t:'radio',o:['Yes, with my name','Yes, anonymously','No, keep it private']},
+{k:'Anything else you would like to tell us?',t:'area'}]}
+];
+var f=document.getElementById('f'),bar=document.getElementById('prog'),n=0;
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
+function chips(o,type,name,k){
+return '<div class="chips" data-k="'+esc(k)+'">'+o.map(function(v){return '<label><input type="'+type+'" name="'+name+'" value="'+esc(v)+'"><span>'+esc(v)+'</span></label>'}).join('')+'</div>';
+}
+f.innerHTML=S.map(function(sec){
+return '<section class="card"><h2>'+sec.h+'</h2>'+sec.q.map(function(q){
+n++;var nm='n'+n,lab='<label class="q">'+esc(q.k)+(q.s?' <span class="sub">'+esc(q.s)+'</span>':'')+'</label>';
+if(q.t==='text')return lab+'<input type="text" data-k="'+esc(q.k)+'" placeholder="'+esc(q.p||'')+'">';
+if(q.t==='area')return lab+'<textarea data-k="'+esc(q.k)+'"></textarea>';
+if(q.t==='radio')return lab+chips(q.o,'radio',nm,q.k);
+if(q.t==='check')return lab+chips(q.o,'checkbox',nm,q.k);
+return lab+q.o.map(function(s,i){return '<div class="skill"><b>'+esc(s)+'</b>'+chips(q.r||['Comfortable','Somewhat','Not yet'],'radio',nm+'_'+i,q.k.split(' (')[0]+' - '+s)+'</div>'}).join('');
+}).join('')+'</section>';
+}).join('');
+function collect(){
+var out=[];
+f.querySelectorAll('[data-k]').forEach(function(el){
+var k=el.getAttribute('data-k'),v='';
+if(el.matches('.chips')){var a=[];el.querySelectorAll('input:checked').forEach(function(i){a.push(i.value)});v=a.join(', ')}
+else v=el.value.trim();
+out.push([k,v]);
+});
+return out;
+}
+function progress(){var a=collect();bar.style.width=Math.round(a.filter(function(x){return x[1]}).length/a.length*100)+'%'}
+f.addEventListener('input',progress);f.addEventListener('change',progress);
+document.getElementById('go').addEventListener('click',function(){
+var txt='Client Review Form\n\n'+collect().map(function(x){return x[0]+': '+(x[1]||'-')}).join('\n');
+var ta=document.getElementById('ta'),msg=document.getElementById('msg');
+ta.value=txt;
+function fb(){document.getElementById('out').style.display='block';ta.select();msg.textContent='Almost! Copy the text below 💕'}
+try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){msg.textContent='Copied! Now paste it in a message to us ✨'},fb)}else fb()}catch(e){fb()}
+});
+</script>
+</body>
+</html>
+
+</body></html>
